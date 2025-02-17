@@ -5,17 +5,42 @@ const { connectDB } = require("./config/db");
 const { Event, User } = require("./models");
 const { syncDB } = require("./models");
 const setupSwagger = require('./swagger');
+const morgan = require('morgan');
 
 dotenv.config();
 
 const app = express();
+
+const apiKeyMiddleware = (req, res, next) => {
+  const apiKey = req.header('x-api-key');
+
+  if (!apiKey || apiKey !== process.env.API_KEY) {
+    return res.status(403).json({ message: 'Forbidden: Invalid API Key' });
+  }
+
+  next();
+};
+
 app.use(cors());
 app.use(express.json());
+app.use(morgan(':method :url'));
+
+// app.use("/events", apiKeyMiddleware);
+// app.use("/users", apiKeyMiddleware);
 
 setupSwagger(app);
 
 /**
  * @swagger
+  * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ * 
+ * security:
+ *   - ApiKeyAuth: []
  * /events:
  *   get:
  *     summary: Получить список событий
@@ -524,7 +549,6 @@ app.get("/users", async (req, res) => {
     res.status(500).json({ message: "Ошибка при получении списка пользователей" });
   }
 });
-
 
 
 const startServer = async () => {
