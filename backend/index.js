@@ -39,9 +39,9 @@ app.get("/events/:id", async (req, res) => {
 });
 
 app.post("/events", async (req, res) => {
-  const { title, description, date, createdBy } = req.body;
+  const { title, description, date, location, createdBy } = req.body;
 
-  if (!title || !date || !createdBy) {
+  if (!title || !date || !createdBy || !location) {
     return res.status(400).json({ message: "Все обязательные поля должны быть заполнены" });
   }
 
@@ -50,6 +50,7 @@ app.post("/events", async (req, res) => {
       title,
       description,
       date,
+      location, 
       createdBy,
     });
     res.status(201).json(event);
@@ -60,9 +61,9 @@ app.post("/events", async (req, res) => {
 });
 
 app.put("/events/:id", async (req, res) => {
-  const { title, description, date, createdBy } = req.body;
+  const { title, description, date, location, createdBy } = req.body;
 
-  if (!title || !date || !createdBy) {
+  if (!title || !date || !createdBy || !location) {
     return res.status(400).json({ message: "Все обязательные поля должны быть заполнены" });
   }
 
@@ -74,6 +75,7 @@ app.put("/events/:id", async (req, res) => {
     event.title = title;
     event.description = description;
     event.date = date;
+    event.location = location;
     event.createdBy = createdBy;
 
     await event.save();

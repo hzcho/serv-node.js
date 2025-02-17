@@ -19,6 +19,15 @@ const Event = sequelize.define("event", {
     type: DataTypes.DATE,
     allowNull: false,
   },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: "Локация не может быть пустой",
+      },
+    },
+  },
   createdBy: {
     type: DataTypes.UUID,
     allowNull: false,
