@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "dev": "nodeman index.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "nodeman": "^1.1.2"
+    "nodeman": "^1.1.2",
+    "nodemon": "^3.1.9"
   }
 }
