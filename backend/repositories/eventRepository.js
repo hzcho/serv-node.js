@@ -14,19 +14,23 @@ class EventRepository {
     return await Event.create(eventData);
   }
 
+  async getEventById(id) {
+    return await Event.findByPk(id);
+  }
+
   async updateEvent(id, eventData) {
-    const event = await Event.findByPk(id);
-    if (!event) {
-      return null;
-    }
-    
-    return await event.update(eventData);
+      const event = await this.getEventById(id);
+      if (!event) {
+          return null;
+      }
+
+      return await event.update(eventData);
   }
 
   async deleteEvent(id) {
     const event = await Event.findByPk(id);
     if (!event) {
-      return null;
+      return false;
     }
 
     await event.destroy();

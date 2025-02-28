@@ -27,6 +27,9 @@ app.use(express.json());
 app.use(morgan(':method :url'));
 app.use("", eventRoutes);
 app.use("", userRoutes);
+app.use((req, res, next) => {
+  res.status(404).json({ message: "неправильный путь" });
+});
 
 // app.use("/events", apiKeyMiddleware);
 // app.use("/users", apiKeyMiddleware);
