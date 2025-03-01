@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const eventRoutes = require("./routes/eventRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const publicRoutes = require("./routes/publicRoutes");
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(morgan(':method :url'));
 app.use("", eventRoutes);
 app.use("", userRoutes);
 app.use("/auth", authRoutes);
+app.use("", publicRoutes);
 app.use((req, res, next) => {
   res.status(404).json({ message: "неправильный путь" });
 });
