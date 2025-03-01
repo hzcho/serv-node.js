@@ -38,4 +38,18 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const refreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(400).json({ message: "Refresh token обязателен" });
+  }
+
+  try {
+    const newAccessToken = await authService.refreshToken(refreshToken);
+    res.status(200).json({ accessToken: newAccessToken });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, refreshToken };
