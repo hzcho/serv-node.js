@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("../config/passport");
 const {
   getAllEvents,
   getEventById,
@@ -8,6 +9,8 @@ const {
 } = require("../handlers/eventHandler");
 
 const router = express.Router();
+
+router(passport.authenticate("jwt", { session: false }));
 
 /**
  * @swagger
