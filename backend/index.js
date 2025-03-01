@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config({ path: './backend/.env' });;
 const { connectDB } = require("./config/db");
 const { syncDB } = require("./models");
 const setupSwagger = require('./swagger');
@@ -8,7 +8,6 @@ const morgan = require('morgan');
 const eventRoutes = require("./routes/eventRoutes");
 const userRoutes = require("./routes/userRoutes");
 
-dotenv.config();
 
 const app = express();
 
