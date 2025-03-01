@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv").config({ path: './backend/.env' });;
+const dotenv = require("dotenv").config({ path: './backend/.env' });
 const { connectDB } = require("./config/db");
 const { syncDB } = require("./models");
 const setupSwagger = require('./swagger');
