@@ -8,9 +8,6 @@ class EventService {
   }
 
   async getEventById(id) {
-    if (!isUUID(id)) {
-      throw new Error("Некорректный ID");
-    }
     const event = await eventRepository.getEventById(id);
     if (!event) {
       throw new Error("Мероприятие не найдено");
@@ -20,14 +17,6 @@ class EventService {
 
 async createEvent(eventData) {
     const { title, description, date, location, createdBy } = eventData;
-
-    if (!title || !date || !createdBy || !location) {
-        throw new Error("Все обязательные поля должны быть заполнены");
-    }
-
-    if (!isUUID(createdBy)) {
-        throw new Error("Некорректный UUID пользователя");
-    }
 
     const userExists = await userRepository.getUserById(createdBy);
 
@@ -40,10 +29,6 @@ async createEvent(eventData) {
 
 
 async updateEvent(id, eventData) {
-    if (!isUUID(id)) {
-        throw new Error("Некорректный ID");
-    }
-
     const event = await eventRepository.getEventById(id);
     if (!event) {
         throw new Error("Мероприятие не найдено");
@@ -73,10 +58,6 @@ async updateEvent(id, eventData) {
 
 
   async deleteEvent(id) {
-    if (!isUUID(id)) {
-        throw new Error("Некорректный ID");
-    }
-
     const deleted = await eventRepository.deleteEvent(id);
     if (!deleted) {
         throw new Error("Мероприятие не найдено");
