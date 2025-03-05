@@ -1,6 +1,7 @@
 const express = require("express");
+const UserController = require("../controllers/userController");
 
-const { createUser, getUsers } = require("../handlers/userHandler");
+const { createUser, getUsers } = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -70,7 +71,7 @@ const router = express.Router();
  *                   type: string
  *                   example: "Ошибка при создании пользователя"
  */
-router.post("/users", createUser);
+router.post("/", (req, res) => UserController.createUser(req, res));
 
 /**
  * @swagger
@@ -114,6 +115,6 @@ router.post("/users", createUser);
  *                   type: string
  *                   example: "Ошибка при получении списка пользователей"
  */
-router.get("/users", getUsers);
+router.get("/", (req, res) => UserController.getUsers(req, res));
 
 module.exports = router;

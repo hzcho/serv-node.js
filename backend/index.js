@@ -7,27 +7,19 @@ const setupSwagger = require('./swagger');
 const morgan = require('morgan');
 const eventRoutes = require("./routes/eventRoutes");
 const userRoutes = require("./routes/userRoutes");
+const errorMiddleware = require("./middlewares/errorMiddleware");
+
 
 dotenv.config();
 
 const app = express();
 
-const apiKeyMiddleware = (req, res, next) => { //todo вынести
-  const apiKey = req.header('x-api-key');
-
-  if (!apiKey || apiKey !== process.env.API_KEY) {
-    return res.status(403).json({ message: 'Forbidden: Invalid API Key' });
-  }
-
-  next();
-};
-
 app.use(cors());
 app.use(express.json());
 app.use(morgan(':method :url'));
-app.use(errorHandler);
-app.use("", eventRoutes); // todo app.use("/events", eventRoutes);
-app.use("", userRoutes);
+app.use(errorMiddleware);
+app.use("/events", eventRoutes); // todo app.use("/events", eventRoutes);
+app.use("/users", userRoutes);
 app.use((req, res, next) => {
   res.status(404).json({ message: "неправильный путь" });
 });

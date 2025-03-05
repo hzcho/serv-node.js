@@ -1,17 +1,17 @@
 const userRepository = require("../repositories/userRepository");
+const { BadRequestError, NotFoundError } = require("../errors/customErrors");
 
 class UserService {
   async createUser(name, email) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new Error("Пользователь с таким email уже существует");
+      throw new BadRequestError("Пользователь с таким email уже существует");
     }
-
     return await userRepository.createUser(name, email);
   }
 
   async getAllUsers() {
-    return await userRepository.findAllUsers();
+    return await userRepository.getAllUsers();
   }
 }
 

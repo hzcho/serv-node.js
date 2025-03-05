@@ -13,7 +13,7 @@ class UserRepository {
     return await User.create({ name, email });
   }
 
-  async findAllUsers() {
+  async getAllUsers() {
     return await User.findAll();
   }
 }

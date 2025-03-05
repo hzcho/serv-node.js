@@ -1,5 +1,5 @@
 const { sequelize } = require("../config/db");
-const User = require("./user"); //todo убрать двойной импорт/экспорт, импортировать напрямую с файла модели
+const User = require("./user");
 const Event = require("./event");
 
 const syncDB = async () => {
