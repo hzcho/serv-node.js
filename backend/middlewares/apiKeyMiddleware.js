@@ -7,3 +7,5 @@ const apiKeyMiddleware = (req, res, next) => { //todo вынести
   
     next();
   };
+
+  export default apiKeyMiddleware;

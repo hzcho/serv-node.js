@@ -1,6 +1,6 @@
-const userService = require("../services/userService");
-const asyncHandler = require("../middlewares/asyncHandler");
-const { handleError } = require("../errors/customErrors");
+import userService from "../services/userService.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
+import { handleError } from "../errors/customErrors.js";
 
 class UserController {
   createUser = asyncHandler(async (req, res) => {
@@ -29,4 +29,4 @@ class UserController {
   });
 }
 
-module.exports = new UserController();
+export default new UserController();

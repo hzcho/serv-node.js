@@ -1,5 +1,5 @@
-const userRepository = require("../repositories/userRepository");
-const { BadRequestError, NotFoundError } = require("../errors/customErrors");
+import userRepository from "../repositories/userRepository.js";
+import { BadRequestError } from "../errors/customErrors.js";
 
 class UserService {
   async createUser(name, email) {
@@ -15,4 +15,4 @@ class UserService {
   }
 }
 
-module.exports = new UserService();
+export default new UserService();

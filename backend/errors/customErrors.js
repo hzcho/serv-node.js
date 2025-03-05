@@ -35,4 +35,4 @@ const handleError = (res, error, defaultMessage) => {
     res.status(statusCode).json({ error: error.message || defaultMessage });
 };
 
-module.exports = { CustomError, BadRequestError, UnauthorizedError, NotFoundError, InternalServerError, handleError };
+export { CustomError, BadRequestError, UnauthorizedError, NotFoundError, InternalServerError, handleError };

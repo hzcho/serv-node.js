@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/db");
-const User = require("./user");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
+import User from "./user.js";
 
 const Event = sequelize.define("event", {
   id: {
@@ -41,5 +41,4 @@ const Event = sequelize.define("event", {
 User.hasMany(Event, { foreignKey: "createdBy", onDelete: "CASCADE" });
 Event.belongsTo(User, { foreignKey: "createdBy" });
 
-module.exports = Event;
-
+export default Event;

@@ -1,6 +1,6 @@
-const eventService = require("../services/eventService");
-const asyncHandler = require("../middlewares/asyncHandler");
-const { handleError } = require("../errors/customErrors");
+import eventService from "../services/eventService.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
+import { handleError } from "../errors/customErrors.js";
 
 class EventController {
   getAllEvents = asyncHandler(async (req, res) => {
@@ -49,4 +49,4 @@ class EventController {
   });
 }
 
-module.exports = new EventController();
+export default new EventController();

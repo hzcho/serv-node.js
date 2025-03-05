@@ -1,6 +1,4 @@
-const { sequelize } = require("../config/db");
-const User = require("./user");
-const Event = require("./event");
+import { sequelize } from "../config/db.js";
 
 const syncDB = async () => {
   try {
@@ -11,5 +9,5 @@ const syncDB = async () => {
   }
 };
 
-module.exports = { syncDB, User, Event };
+export { syncDB };
 

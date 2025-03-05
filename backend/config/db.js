@@ -1,5 +1,7 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const sequelize = new Sequelize(
   process.env.POSTGRES_DB,
@@ -23,5 +25,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { sequelize, connectDB };
-
+export { connectDB, sequelize };

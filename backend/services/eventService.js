@@ -1,7 +1,7 @@
-const eventRepository = require("../repositories/eventRepository");
-const { validate: isUUID } = require("uuid");
-const userRepository = require("../repositories/userRepository");
-const { BadRequestError, NotFoundError } = require("../errors/customErrors");
+import eventRepository from "../repositories/eventRepository.js";
+import { validate as isUUID } from "uuid";
+import userRepository from "../repositories/userRepository.js";
+import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 
 class EventService {
   async getAllEvents() {
@@ -84,4 +84,4 @@ class EventService {
   }
 }
 
-module.exports = new EventService();
+export default new EventService();
