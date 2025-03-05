@@ -1,32 +1,25 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const { connectDB } = require("./config/db");
-const { syncDB } = require("./models");
-const setupSwagger = require('./swagger');
-const morgan = require('morgan');
-const eventRoutes = require("./routes/eventRoutes");
-const userRoutes = require("./routes/userRoutes");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
+import { syncDB } from "./models/index.js";
+import setupSwagger from './swagger.js';
+import morgan from 'morgan';
+import eventRoutes from "./routes/eventRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+
 
 dotenv.config();
 
 const app = express();
 
-const apiKeyMiddleware = (req, res, next) => {
-  const apiKey = req.header('x-api-key');
-
-  if (!apiKey || apiKey !== process.env.API_KEY) {
-    return res.status(403).json({ message: 'Forbidden: Invalid API Key' });
-  }
-
-  next();
-};
-
 app.use(cors());
 app.use(express.json());
 app.use(morgan(':method :url'));
-app.use("", eventRoutes);
-app.use("", userRoutes);
+app.use(errorMiddleware);
+app.use("/events", eventRoutes);
+app.use("/users", userRoutes);
 app.use((req, res, next) => {
   res.status(404).json({ message: "неправильный путь" });
 });

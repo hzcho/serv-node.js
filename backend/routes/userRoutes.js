@@ -1,6 +1,5 @@
-const express = require("express");
-
-const { createUser, getUsers } = require("../handlers/userHandler");
+import express from "express";
+import UserController from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -70,7 +69,7 @@ const router = express.Router();
  *                   type: string
  *                   example: "Ошибка при создании пользователя"
  */
-router.post("/users", createUser);
+router.post("/", (req, res) => UserController.createUser(req, res));
 
 /**
  * @swagger
@@ -114,6 +113,6 @@ router.post("/users", createUser);
  *                   type: string
  *                   example: "Ошибка при получении списка пользователей"
  */
-router.get("/users", getUsers);
+router.get("/", (req, res) => UserController.getUsers(req, res));
 
-module.exports = router;
+export default router;

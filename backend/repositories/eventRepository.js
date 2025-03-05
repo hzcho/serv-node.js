@@ -1,5 +1,5 @@
-const Event = require("../models/event");
-const User = require("../models/user");
+import Event from "../models/event.js";
+import User from "../models/user.js";
 
 class EventRepository {
   async getAllEvents() {
@@ -38,4 +38,4 @@ class EventRepository {
   }
 }
 
-module.exports = new EventRepository();
+export default new EventRepository();

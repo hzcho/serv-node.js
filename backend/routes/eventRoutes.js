@@ -1,13 +1,7 @@
-const express = require("express");
-const {
-  getAllEvents,
-  getEventById,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-} = require("../handlers/eventHandler");
+import { Router } from "express";
+import EventController from "../controllers/eventController.js";
 
-const router = express.Router();
+const router = new Router();
 
 /**
  * @swagger
@@ -46,7 +40,7 @@ const router = express.Router();
  *                     format: date-time
  *                     example: "2025-03-01T00:00:00Z"
  */
-router.get("/events", getAllEvents);
+router.post('/', EventController.createEvent);
 
 /**
  * @swagger
@@ -109,7 +103,7 @@ router.get("/events", getAllEvents);
  *       500:
  *         description: Ошибка сервера
  */
-router.get("/events/:id", getEventById);
+router.get('/', EventController.getAllEvents);
 
 /**
  * @swagger
@@ -180,7 +174,7 @@ router.get("/events/:id", getEventById);
  *       500:
  *         description: Ошибка сервера
  */
-router.post("/events", createEvent);
+router.get('/:id', EventController.getEventById);
 
 /**
  * @swagger
@@ -262,7 +256,7 @@ router.post("/events", createEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.put("/events/:id", updateEvent);
+router.put('/:id', EventController.updateEvent);
 
 /**
  * @swagger
@@ -303,6 +297,6 @@ router.put("/events/:id", updateEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.delete("/events/:id", deleteEvent);
+router.delete('/:id', EventController.deleteEvent);
 
-module.exports = router;
+export default router;
