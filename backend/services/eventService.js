@@ -1,7 +1,6 @@
 import eventRepository from "../repositories/eventRepository.js";
-import { validate as isUUID } from "uuid";
 import userRepository from "../repositories/userRepository.js";
-import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
+import { NotFoundError } from "../errors/customErrors.js";
 
 class EventService {
   async getAllEvents() {
@@ -9,9 +8,6 @@ class EventService {
   }
 
   async getEventById(id) {
-    if (!isUUID(id)) {
-      throw new BadRequestError("Некорректный ID");
-    }
     const event = await eventRepository.getEventById(id);
     if (!event) {
       throw new NotFoundError("Мероприятие не найдено");
@@ -20,66 +16,37 @@ class EventService {
   }
 
   async createEvent(eventData) {
-    const { title, description, date, location, createdBy } = eventData;
-
-    if (!title || !date || !createdBy || !location) {
-      throw new BadRequestError("Все обязательные поля должны быть заполнены");
-    }
-
-    if (!isUUID(createdBy)) {
-      throw new BadRequestError("Некорректный UUID пользователя");
-    }
+    const { createdBy } = eventData;
 
     const userExists = await userRepository.getUserById(createdBy);
     if (!userExists) {
       throw new NotFoundError("Пользователь не найден");
     }
 
-    return await eventRepository.createEvent({ title, description, date, location, createdBy });
+    return await eventRepository.createEvent(eventData);
   }
 
   async updateEvent(id, eventData) {
-    if (!isUUID(id)) {
-      throw new BadRequestError("Некорректный ID");
-    }
-
     const event = await eventRepository.getEventById(id);
     if (!event) {
       throw new NotFoundError("Мероприятие не найдено");
     }
 
-    const filteredData = Object.fromEntries(
-      Object.entries(eventData).filter(([_, value]) => value !== undefined)
-    );
-
-    if (Object.keys(filteredData).length === 0) {
-      throw new BadRequestError("Нет данных для обновления");
-    }
-
-    if (filteredData.createdBy) {
-      if (!isUUID(filteredData.createdBy)) {
-        throw new BadRequestError("Некорректный UUID пользователя");
-      }
-
-      const userExists = await userRepository.getUserById(filteredData.createdBy);
+    if (eventData.createdBy) {
+      const userExists = await userRepository.getUserById(eventData.createdBy);
       if (!userExists) {
         throw new NotFoundError("Пользователь не найден");
       }
     }
 
-    return await eventRepository.updateEvent(id, filteredData);
+    return await eventRepository.updateEvent(id, eventData);
   }
 
   async deleteEvent(id) {
-    if (!isUUID(id)) {
-      throw new BadRequestError("Некорректный ID");
-    }
-
     const deleted = await eventRepository.deleteEvent(id);
     if (!deleted) {
       throw new NotFoundError("Мероприятие не найдено");
     }
-
     return { message: "Мероприятие удалено" };
   }
 }

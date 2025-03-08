@@ -29,10 +29,16 @@ class InternalServerError extends CustomError {
     }
 }
 
+ class ForbiddenError extends CustomError {
+    constructor(message = "Forbidden: Invalid API Key") {
+      super(message, 403);
+    }
+}
+
 const handleError = (res, error, defaultMessage) => {
     console.log(defaultMessage || error);
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({ error: error.message || defaultMessage });
 };
 
-export { CustomError, BadRequestError, UnauthorizedError, NotFoundError, InternalServerError, handleError };
+export { CustomError, BadRequestError, UnauthorizedError, NotFoundError, InternalServerError, ForbiddenError, handleError };
