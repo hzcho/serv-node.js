@@ -7,8 +7,10 @@ import setupSwagger from "./swagger.js";
 import morgan from "morgan";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import publicRoutes from "./routes/publicRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
-import apiKeyMiddleware from "./middlewares/apiKeyMiddleware.js";
+import passportMiddleware from "./middlewares/passportMiddleware.js";
 
 
 const app = express();
@@ -17,9 +19,12 @@ app.use(cors());
 app.use(express.json());
 
 app.use(morgan(":method :url"));
+app.use(passportMiddleware.initialize());
 
-app.use("/events", apiKeyMiddleware, eventRoutes);
-app.use("/users", apiKeyMiddleware, userRoutes);
+app.use("/events", publicRoutes);
+app.use("/auth", authRoutes);
+app.use("/events", eventRoutes);
+app.use("/users", userRoutes);
 
 app.use(errorMiddleware);
 

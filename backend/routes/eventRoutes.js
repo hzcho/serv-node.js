@@ -1,50 +1,8 @@
 import { Router } from "express";
 import EventController from "../controllers/eventController.js";
+import passport from "passport";
 
 const router = new Router();
-
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     ApiKeyAuth:
- *       type: apiKey
- *       in: header
- *       name: x-api-key
- *       description: API Key для доступа к эндпоинтам
- */
-
-/**
- * @swagger
- * /events:
- *   get:
- *     summary: Получить список событий
- *     tags: [Events]
- *     security:
- *       - ApiKeyAuth: []
- *     responses:
- *       200:
- *         description: Успешный ответ
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     format: uuid
- *                     example: "169a51b3-2727-4737-bae8-3f84bd2c396b"
- *                   title:
- *                     type: string
- *                     example: "Мероприятие в Москве"
- *                   date:
- *                     type: string
- *                     format: date-time
- *                     example: "2025-03-01T00:00:00Z"
- */
-router.get('/', EventController.getAllEvents);
 
 /**
  * @swagger
@@ -110,7 +68,7 @@ router.get('/', EventController.getAllEvents);
  *         description: Ошибка сервера
  */
 
-router.get('/:id', EventController.getEventById);
+router.get('/:id',  passport.authenticate("jwt", { session: false }), EventController.getEventById);
 
 /**
  * @swagger
@@ -183,7 +141,7 @@ router.get('/:id', EventController.getEventById);
  *       500:
  *         description: Ошибка сервера
  */
-router.post('/', EventController.createEvent);
+router.post('/',  passport.authenticate("jwt", { session: false }), EventController.createEvent);
 
 /**
  * @swagger
@@ -267,7 +225,7 @@ router.post('/', EventController.createEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.put('/:id', EventController.updateEvent);
+router.put('/:id',  passport.authenticate("jwt", { session: false }), EventController.updateEvent);
 
 /**
  * @swagger
@@ -310,6 +268,6 @@ router.put('/:id', EventController.updateEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.delete('/:id', EventController.deleteEvent);
+router.delete('/:id',  passport.authenticate("jwt", { session: false }), EventController.deleteEvent);
 
 export default router;

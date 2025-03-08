@@ -1,5 +1,4 @@
-const RefreshToken = require("../models/refreshToken");
-const User = require("../models/user");
+import RefreshToken from "../models/refreshToken.js";
 
 class AuthRepository {
   async saveRefreshToken(userId, token, expiresAt) {
@@ -15,4 +14,4 @@ class AuthRepository {
   }
 }
 
-module.exports = new AuthRepository();
+export default new AuthRepository();

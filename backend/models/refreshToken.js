@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/db");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
 
 const RefreshToken = sequelize.define("refreshToken", {
   id: {
@@ -25,4 +25,4 @@ const RefreshToken = sequelize.define("refreshToken", {
   },
 });
 
-module.exports = RefreshToken;
+export default RefreshToken;

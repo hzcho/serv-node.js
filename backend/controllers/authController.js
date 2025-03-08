@@ -36,13 +36,13 @@ class AuthController {
 
   refreshToken = asyncHandler(async (req, res) => {
     try {
-      const { token } = req.body;
+      const { refreshToken } = req.body;
 
-      if (!token) {
+      if (!refreshToken) {
         throw new BadRequestError("Refresh token обязателен");
       }
 
-      const newAccessToken = await authService.refreshToken(token);
+      const newAccessToken = await authService.refreshToken(refreshToken);
       res.status(200).json({ accessToken: newAccessToken });
     } catch (error) {
       handleError(res, error, "Ошибка при обновлении токена");
