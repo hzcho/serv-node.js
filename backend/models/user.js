@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/db");
-const bcrypt = require("bcryptjs");
-=======
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
->>>>>>> feature/LAB1-1
 
 const User = sequelize.define("user", {
   id: {
@@ -35,12 +29,6 @@ const User = sequelize.define("user", {
   },
 });
 
-<<<<<<< HEAD
-User.beforeCreate(async (user) => {
-  user.password = await bcrypt.hash(user.password, 10);
-});
-=======
 export  default User;
->>>>>>> feature/LAB1-1
 
 module.exports = User;

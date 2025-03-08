@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const userRepository = require("../repositories/userRepository");
-const rtRepository = require("../repositories/refreshTokenRepository");
-const { v4: uuidv4 } = require("uuid");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import userRepository from "../repositories/userRepository.js";
+import rtRepository from "../repositories/refreshTokenRepository.js";
+import { BadRequestError, NotFoundError, UnauthorizedError } from "../errors/customErrors.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.REFRESH_SECRET;
@@ -17,20 +17,22 @@ class AuthService {
   async registerUser(name, email, password) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new Error("Пользователь с таким email уже существует");
+      throw new BadRequestError("Пользователь с таким email уже существует");
     }
-    return await userRepository.createUser(name, email, password);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return await userRepository.createUser(name, email, hashedPassword);
   }
 
   async loginUser(email, password) {
     const user = await userRepository.findByEmail(email);
     if (!user) {
-      throw new Error("Неверный email или пароль");
+      throw new UnauthorizedError("Неверный email или пароль");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new Error("Неверный email или пароль");
+      throw new UnauthorizedError("Неверный email или пароль");
     }
 
     const accessToken = jwt.sign(
@@ -53,7 +55,7 @@ class AuthService {
   async refreshToken(token) {
     const existingToken = await rtRepository.findRefreshToken(token);
     if (!existingToken) {
-      throw new Error("Недействительный refresh token");
+      throw new UnauthorizedError("Недействительный refresh token");
     }
 
     const decoded = jwt.verify(token, REFRESH_SECRET);
@@ -67,4 +69,4 @@ class AuthService {
   }
 }
 
-module.exports = new AuthService();
+export default new AuthService();

@@ -1,60 +1,8 @@
-<<<<<<< HEAD
-const express = require("express");
-const passport = require("../config/passport");
-const {
-  getAllEvents,
-  getEventById,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-} = require("../handlers/eventHandler");
-=======
 import { Router } from "express";
 import EventController from "../controllers/eventController.js";
->>>>>>> feature/LAB1-1
 
 const router = new Router();
 
-<<<<<<< HEAD
-// /**
-//  * @swagger
-//  * components:
-//  *   securitySchemes:
-//  *     ApiKeyAuth:
-//  *       type: apiKey
-//  *       in: header
-//  *       name: x-api-key
-//  * 
-//  * security:
-//  *   - ApiKeyAuth: []
-//  * /events:
-//  *   get:
-//  *     summary: Получить список событий
-//  *     tags: [Events]
-//  *     responses:
-//  *       200:
-//  *         description: Успешный ответ
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: array
-//  *               items:
-//  *                 type: object
-//  *                 properties:
-//  *                   id:
-//  *                     type: string
-//  *                     format: uuid
-//  *                     example: "169a51b3-2727-4737-bae8-3f84bd2c396b"
-//  *                   title:
-//  *                     type: string
-//  *                     example: "Мероприятие в Москве"
-//  *                   date:
-//  *                     type: string
-//  *                     format: date-time
-//  *                     example: "2025-03-01T00:00:00Z"
-//  */
-// router.get("/events", getAllEvents);
-=======
 /**
  * @swagger
  * components:
@@ -97,7 +45,6 @@ const router = new Router();
  *                     example: "2025-03-01T00:00:00Z"
  */
 router.get('/', EventController.getAllEvents);
->>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -162,11 +109,8 @@ router.get('/', EventController.getAllEvents);
  *       500:
  *         description: Ошибка сервера
  */
-<<<<<<< HEAD
-router.get("/events/:id", passport.authenticate("jwt", { session: false }), getEventById);
-=======
+
 router.get('/:id', EventController.getEventById);
->>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -239,11 +183,7 @@ router.get('/:id', EventController.getEventById);
  *       500:
  *         description: Ошибка сервера
  */
-<<<<<<< HEAD
-router.post("/events", passport.authenticate("jwt", { session: false }), createEvent);
-=======
 router.post('/', EventController.createEvent);
->>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -327,11 +267,7 @@ router.post('/', EventController.createEvent);
  *       500:
  *         description: Ошибка сервера
  */
-<<<<<<< HEAD
-router.put("/events/:id", passport.authenticate("jwt", { session: false }), updateEvent);
-=======
 router.put('/:id', EventController.updateEvent);
->>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -374,10 +310,6 @@ router.put('/:id', EventController.updateEvent);
  *       500:
  *         description: Ошибка сервера
  */
-<<<<<<< HEAD
-router.delete("/events/:id", passport.authenticate("jwt", { session: false }), deleteEvent);
-=======
 router.delete('/:id', EventController.deleteEvent);
->>>>>>> feature/LAB1-1
 
 export default router;
