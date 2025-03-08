@@ -1,6 +1,6 @@
 import RefreshToken from "../models/refreshToken.js";
 
-class AuthRepository {
+class RefreshTokenRepository {
   async saveRefreshToken(userId, token, expiresAt) {
     return await RefreshToken.create({ userId, token, expiresAt });
   }
@@ -14,4 +14,4 @@ class AuthRepository {
   }
 }
 
-export default new AuthRepository();
+export default new RefreshTokenRepository();

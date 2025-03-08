@@ -65,7 +65,21 @@ class AuthService {
       { expiresIn: ACCESS_EXPIRATION }
     );
 
-    return newAccessToken;
+    const newRefreshToken = jwt.sign(
+      { id: decoded.id },
+      REFRESH_SECRET,
+      { expiresIn: `${REFRESH_EXPIRATION_DAYS}d` }
+    );
+
+    await rtRepository.deleteRefreshToken(token);
+
+    await rtRepository.saveRefreshToken(
+      decoded.id,
+      newRefreshToken,
+      new Date(Date.now() + REFRESH_EXPIRATION_DAYS * 24 * 60 * 60 * 1000)
+    );
+
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
 }
 

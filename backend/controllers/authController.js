@@ -42,8 +42,8 @@ class AuthController {
         throw new BadRequestError("Refresh token обязателен");
       }
 
-      const newAccessToken = await authService.refreshToken(refreshToken);
-      res.status(200).json({ accessToken: newAccessToken });
+      const tokens = await authService.refreshToken(refreshToken);
+      res.status(200).json(tokens);
     } catch (error) {
       handleError(res, error, "Ошибка при обновлении токена");
     }
