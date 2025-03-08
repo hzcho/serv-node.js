@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv").config({ path: './backend/.env' });
@@ -9,22 +10,26 @@ const eventRoutes = require("./routes/eventRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const publicRoutes = require("./routes/publicRoutes");
+=======
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
+import { syncDB } from "./models/index.js";
+import setupSwagger from "./swagger.js";
+import morgan from "morgan";
+import eventRoutes from "./routes/eventRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import apiKeyMiddleware from "./middlewares/apiKeyMiddleware.js";
+>>>>>>> feature/LAB1-1
 
 
 const app = express();
 
-const apiKeyMiddleware = (req, res, next) => {
-  const apiKey = req.header('x-api-key');
-
-  if (!apiKey || apiKey !== process.env.API_KEY) {
-    return res.status(403).json({ message: 'Forbidden: Invalid API Key' });
-  }
-
-  next();
-};
-
 app.use(cors());
 app.use(express.json());
+<<<<<<< HEAD
 app.use(morgan(':method :url'));
 app.use("", eventRoutes);
 app.use("", userRoutes);
@@ -33,13 +38,20 @@ app.use("", publicRoutes);
 app.use((req, res, next) => {
   res.status(404).json({ message: "неправильный путь" });
 });
+=======
+app.use(morgan(":method :url"));
+>>>>>>> feature/LAB1-1
 
-// app.use("/events", apiKeyMiddleware);
-// app.use("/users", apiKeyMiddleware);
+app.use("/events", apiKeyMiddleware, eventRoutes);
+app.use("/users", apiKeyMiddleware, userRoutes);
+
+app.use(errorMiddleware);
 
 setupSwagger(app);
 
-
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Неправильный путь" });
+});
 
 const startServer = async () => {
   try {
@@ -55,4 +67,3 @@ const startServer = async () => {
 };
 
 startServer();
-

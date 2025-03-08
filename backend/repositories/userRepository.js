@@ -1,4 +1,4 @@
-const User = require("../models/user");
+import User from "../models/user.js";
 
 class UserRepository {
   async findByEmail(email) {
@@ -13,9 +13,9 @@ class UserRepository {
     return await User.create({ name, email, password });
   }
 
-  async findAllUsers() {
+  async getAllUsers() {
     return await User.findAll();
   }
 }
 
-module.exports = new UserRepository();
+export default new UserRepository();

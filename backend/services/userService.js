@@ -1,18 +1,18 @@
-const userRepository = require("../repositories/userRepository");
+import userRepository from "../repositories/userRepository.js";
+import { BadRequestError } from "../errors/customErrors.js";
 
 class UserService {
   async createUser(name, email) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new Error("Пользователь с таким email уже существует");
+      throw new BadRequestError("Пользователь с таким email уже существует");
     }
-
     return await userRepository.createUser(name, email);
   }
 
   async getAllUsers() {
-    return await userRepository.findAllUsers();
+    return await userRepository.getAllUsers();
   }
 }
 
-module.exports = new UserService();
+export default new UserService();

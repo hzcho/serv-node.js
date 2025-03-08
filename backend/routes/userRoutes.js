@@ -1,8 +1,18 @@
-const express = require("express");
-
-const { createUser, getUsers } = require("../handlers/userHandler");
+import express from "express";
+import UserController from "../controllers/userController.js";
 
 const router = express.Router();
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ *       description: API Key для доступа к эндпоинтам
+ */
 
 /**
  * @swagger
@@ -10,6 +20,8 @@ const router = express.Router();
  *   post:
  *     summary: Создать нового пользователя
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -70,7 +82,7 @@ const router = express.Router();
  *                   type: string
  *                   example: "Ошибка при создании пользователя"
  */
-router.post("/users", createUser);
+router.post("/", (req, res) => UserController.createUser(req, res));
 
 /**
  * @swagger
@@ -78,6 +90,8 @@ router.post("/users", createUser);
  *   get:
  *     summary: Получить список всех пользователей
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       200:
  *         description: Список пользователей успешно получен
@@ -114,6 +128,6 @@ router.post("/users", createUser);
  *                   type: string
  *                   example: "Ошибка при получении списка пользователей"
  */
-router.get("/users", getUsers);
+router.get("/", (req, res) => UserController.getUsers(req, res));
 
-module.exports = router;
+export default router;

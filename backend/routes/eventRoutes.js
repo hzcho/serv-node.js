@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require("express");
 const passport = require("../config/passport");
 const {
@@ -7,9 +8,14 @@ const {
   updateEvent,
   deleteEvent,
 } = require("../handlers/eventHandler");
+=======
+import { Router } from "express";
+import EventController from "../controllers/eventController.js";
+>>>>>>> feature/LAB1-1
 
-const router = express.Router();
+const router = new Router();
 
+<<<<<<< HEAD
 // /**
 //  * @swagger
 //  * components:
@@ -48,6 +54,50 @@ const router = express.Router();
 //  *                     example: "2025-03-01T00:00:00Z"
 //  */
 // router.get("/events", getAllEvents);
+=======
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ *       description: API Key для доступа к эндпоинтам
+ */
+
+/**
+ * @swagger
+ * /events:
+ *   get:
+ *     summary: Получить список событий
+ *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Успешный ответ
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     format: uuid
+ *                     example: "169a51b3-2727-4737-bae8-3f84bd2c396b"
+ *                   title:
+ *                     type: string
+ *                     example: "Мероприятие в Москве"
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-03-01T00:00:00Z"
+ */
+router.get('/', EventController.getAllEvents);
+>>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -55,6 +105,8 @@ const router = express.Router();
  *   get:
  *     summary: Получить информацию о мероприятии по ID
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -110,7 +162,11 @@ const router = express.Router();
  *       500:
  *         description: Ошибка сервера
  */
+<<<<<<< HEAD
 router.get("/events/:id", passport.authenticate("jwt", { session: false }), getEventById);
+=======
+router.get('/:id', EventController.getEventById);
+>>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -118,6 +174,8 @@ router.get("/events/:id", passport.authenticate("jwt", { session: false }), getE
  *   post:
  *     summary: Создать новое мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -181,7 +239,11 @@ router.get("/events/:id", passport.authenticate("jwt", { session: false }), getE
  *       500:
  *         description: Ошибка сервера
  */
+<<<<<<< HEAD
 router.post("/events", passport.authenticate("jwt", { session: false }), createEvent);
+=======
+router.post('/', EventController.createEvent);
+>>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -189,6 +251,8 @@ router.post("/events", passport.authenticate("jwt", { session: false }), createE
  *   put:
  *     summary: Обновить существующее мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -263,7 +327,11 @@ router.post("/events", passport.authenticate("jwt", { session: false }), createE
  *       500:
  *         description: Ошибка сервера
  */
+<<<<<<< HEAD
 router.put("/events/:id", passport.authenticate("jwt", { session: false }), updateEvent);
+=======
+router.put('/:id', EventController.updateEvent);
+>>>>>>> feature/LAB1-1
 
 /**
  * @swagger
@@ -271,6 +339,8 @@ router.put("/events/:id", passport.authenticate("jwt", { session: false }), upda
  *   delete:
  *     summary: Удалить мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -304,6 +374,10 @@ router.put("/events/:id", passport.authenticate("jwt", { session: false }), upda
  *       500:
  *         description: Ошибка сервера
  */
+<<<<<<< HEAD
 router.delete("/events/:id", passport.authenticate("jwt", { session: false }), deleteEvent);
+=======
+router.delete('/:id', EventController.deleteEvent);
+>>>>>>> feature/LAB1-1
 
-module.exports = router;
+export default router;
