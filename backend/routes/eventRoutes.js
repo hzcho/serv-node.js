@@ -1,46 +1,8 @@
 import { Router } from "express";
 import EventController from "../controllers/eventController.js";
+import passport from "passport";
 
 const router = new Router();
-
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     ApiKeyAuth:
- *       type: apiKey
- *       in: header
- *       name: x-api-key
- * 
- * security:
- *   - ApiKeyAuth: []
- * /events:
- *   get:
- *     summary: Получить список событий
- *     tags: [Events]
- *     responses:
- *       200:
- *         description: Успешный ответ
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     format: uuid
- *                     example: "169a51b3-2727-4737-bae8-3f84bd2c396b"
- *                   title:
- *                     type: string
- *                     example: "Мероприятие в Москве"
- *                   date:
- *                     type: string
- *                     format: date-time
- *                     example: "2025-03-01T00:00:00Z"
- */
-router.post('/', EventController.createEvent);
 
 /**
  * @swagger
@@ -48,6 +10,8 @@ router.post('/', EventController.createEvent);
  *   get:
  *     summary: Получить информацию о мероприятии по ID
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -103,7 +67,8 @@ router.post('/', EventController.createEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.get('/', EventController.getAllEvents);
+
+router.get('/:id',  passport.authenticate("jwt", { session: false }), EventController.getEventById);
 
 /**
  * @swagger
@@ -111,6 +76,8 @@ router.get('/', EventController.getAllEvents);
  *   post:
  *     summary: Создать новое мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -174,7 +141,7 @@ router.get('/', EventController.getAllEvents);
  *       500:
  *         description: Ошибка сервера
  */
-router.get('/:id', EventController.getEventById);
+router.post('/',  passport.authenticate("jwt", { session: false }), EventController.createEvent);
 
 /**
  * @swagger
@@ -182,6 +149,8 @@ router.get('/:id', EventController.getEventById);
  *   put:
  *     summary: Обновить существующее мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -256,7 +225,7 @@ router.get('/:id', EventController.getEventById);
  *       500:
  *         description: Ошибка сервера
  */
-router.put('/:id', EventController.updateEvent);
+router.put('/:id',  passport.authenticate("jwt", { session: false }), EventController.updateEvent);
 
 /**
  * @swagger
@@ -264,6 +233,8 @@ router.put('/:id', EventController.updateEvent);
  *   delete:
  *     summary: Удалить мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -297,6 +268,6 @@ router.put('/:id', EventController.updateEvent);
  *       500:
  *         description: Ошибка сервера
  */
-router.delete('/:id', EventController.deleteEvent);
+router.delete('/:id',  passport.authenticate("jwt", { session: false }), EventController.deleteEvent);
 
 export default router;

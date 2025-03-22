@@ -9,8 +9,8 @@ class UserRepository {
     return await User.findByPk(id);
   }
 
-  async createUser(name, email) {
-    return await User.create({ name, email });
+  async createUser(name, email, password) {
+    return await User.create({ name, email, password });
   }
 
   async getAllUsers() {

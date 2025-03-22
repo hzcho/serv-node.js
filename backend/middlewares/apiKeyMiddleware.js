@@ -1,11 +1,13 @@
-const apiKeyMiddleware = (req, res, next) => { //todo вынести
-    const apiKey = req.header('x-api-key');
-  
-    if (!apiKey || apiKey !== process.env.API_KEY) {
-      return res.status(403).json({ message: 'Forbidden: Invalid API Key' });
-    }
-  
-    next();
-  };
+import { ForbiddenError } from "../errors/customErrors.js";
 
-  export default apiKeyMiddleware;
+const apiKeyMiddleware = (req, res, next) => {
+  const apiKey = req.header("x-api-key");
+
+  if (!apiKey || apiKey !== process.env.API_KEY) {
+    throw new ForbiddenError();
+  }
+
+  next();
+};
+
+export default apiKeyMiddleware;

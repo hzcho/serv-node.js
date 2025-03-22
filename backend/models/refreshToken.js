@@ -1,32 +1,28 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
 
-const User = sequelize.define("user", {
+const RefreshToken = sequelize.define("refreshToken", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false, 
-  },
-  email: {
-    type: DataTypes.STRING,
+  userId: {
+    type: DataTypes.UUID,
     allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
+    references: {
+      model: "users",
+      key: "id",
     },
   },
-  password: {
+  token: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  createdAt: {
+  expiresAt: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+    allowNull: false,
   },
 });
 
-export  default User;
+export default RefreshToken;

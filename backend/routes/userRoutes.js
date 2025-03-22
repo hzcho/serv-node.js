@@ -5,10 +5,23 @@ const router = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ *       description: API Key для доступа к эндпоинтам
+ */
+
+/**
+ * @swagger
  * /users:
  *   post:
  *     summary: Создать нового пользователя
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -77,6 +90,8 @@ router.post("/", (req, res) => UserController.createUser(req, res));
  *   get:
  *     summary: Получить список всех пользователей
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       200:
  *         description: Список пользователей успешно получен
